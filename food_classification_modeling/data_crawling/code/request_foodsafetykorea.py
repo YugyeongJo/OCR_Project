@@ -67,7 +67,6 @@ def crawl_all_foodsafety_data():
             print(f"요청 실패. 상태 코드: {response.status_code}")
             break
 
-    print(f"총 {len(all_data)}개의 데이터가 수집되었습니다.")
     return all_data
 
 # 함수 실행
