@@ -26,9 +26,10 @@ db1_s = db1.iloc[:,2:]
 db2_s = db2.iloc[:,3:]
 
 ## 중복된 데이터 확인
-overlap = pd.merge(db1_s, db2_s, on = ["에너지(kcal)","지방(g)"], how = "inner")
+overlap = pd.merge(db1_s, db2_s, on = ["에너지(kcal)","단백질(g)","지방(g)",
+          "탄수화물(g)","당류(g)","나트륨(mg)","포화지방산(g)","트랜스지방산(g)","콜레스테롤(mg)"], how = "inner")
 print("중복된 데이터 개수:", len(overlap))
-overlap.head()
+overlap.head() # 중복된 데이터 개수: 1170
 
 ## 두 DB에서 중복되지 않은 데이터를 찾기 : 합집합을 구한 후 차집합으로 중복 없는 데이터 확인
 non_overlap_db1 = pd.merge(db1, db2, on='식품명', how='left', indicator=True)
