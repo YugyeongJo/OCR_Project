@@ -1,0 +1,36 @@
+import pandas as pd
+import os
+
+## DB 불러오기
+# food : 음식관련 병합DB
+# fish : 해양수산부 관련 DB
+fish = pd.read_csv(r'C:/Users/dnltj/Downloads/pro_food/fishsite_fish_DB.csv', encoding='cp949')
+food = pd.read_excel(r'C:/Users/dnltj/Downloads/pro_food/merged_food_DB.xlsx') 
+
+## 간략한 내용 확인
+print("fish.info() = \n",fish.info())
+print("food.info() = \n",food.info())
+
+## 비교를 위한 컬럼명 통일
+print(fish.columns)
+print(food.columns)
+
+## 컬럼명 변경
+fish_d = fish.loc[:,['식품명','에너지(kcal)', '단백질(g)','지방(g)', '탄수화물(g)', '당류(g)',
+                      '칼슘(mg)', '나트륨(mg)', '콜레스테롤(mg)','포화지방산(g)', '트랜스지방산(g)','출처명', '식품중량']]
+
+## 중복된 데이터 확인
+overlap = pd.merge(fish_d, food, on = ["에너지(kcal)","단백질(g)",
+          "지방(g)","탄수화물(g)","당류(g)","나트륨(mg)","포화지방산(g)","트랜스지방산(g)","콜레스테롤(mg)"], how = "inner")
+print("중복된 데이터 개수:", len(overlap))
+overlap.head() # 중복된 데이터 개수: 0
+
+## 병합
+merged_db = pd.concat([food, fish_d], keys=['food', 'fish_d'], axis=0)
+merged_db.info()
+
+## 파일로 저장
+merged_db.to_excel("merged_total_DB.xlsx", index = False)
+
+## 저장된 파일 확인 
+print(os.getcwd())
