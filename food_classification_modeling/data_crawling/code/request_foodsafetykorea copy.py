@@ -89,7 +89,7 @@ async def scrape_all_data():
         'X-Requested-With': 'XMLHttpRequest'
     }
 
-    show_cnt = 1000  # 데이터를 대량으로 가져오지 않도록 수정
+    show_cnt = 100
     start_idx = 1
     total_count = None
     all_data = []
@@ -115,19 +115,17 @@ async def scrape_all_data():
         
         return all_data
 
+# 모든 prdlst_report_ledg_no에 대해 추가 정보를 요청하고 1초씩 딜레이를 주는 함수
 async def scrape_additional_info(data_dict):
+    
     async with aiohttp.ClientSession() as session:
-        tasks = []
         for prdlst_report_ledg_no in data_dict['prdlst_report_ledg_no']:
-            tasks.append(get_additional_data(session, prdlst_report_ledg_no))
-        
-        # 추가 데이터 수집
-        additional_data = await asyncio.gather(*tasks)
-        
-        # 데이터를 data_dict에 저장
-        for idx, prdlst_report_ledg_no in enumerate(data_dict['prdlst_report_ledg_no']):
-            if additional_data[idx]:
-                data_dict[prdlst_report_ledg_no] = additional_data[idx]
+            data = await get_additional_data(session, prdlst_report_ledg_no)
+            if data:
+                data_dict[prdlst_report_ledg_no] = data
+            await asyncio.sleep(1)  # 1초 간격으로 요청 전송
+    
+    return data_dict
 
 async def main():
     all_food_data = await scrape_all_data()
