@@ -1,0 +1,20 @@
+import pandas as pd
+
+# 데이터셋 불러오기 (예: CSV 파일)
+df = pd.read_csv('your_dataset.csv')
+
+# 카테고리 분류 함수 정의
+def categorize(text):
+    if '라면' in text or '봉지' in text:
+        return '라면류'
+    elif '가다랑어' in text:
+        return '가다랑어류'
+    # 다른 카테고리들 추가...
+    else:
+        return '기타'
+
+# '이름' 컬럼에 카테고리 분류 적용
+df['카테고리'] = df['이름'].apply(categorize)
+
+# 결과 확인
+print(df)

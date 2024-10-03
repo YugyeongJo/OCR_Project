@@ -1,0 +1,41 @@
+!pip install openpyxl
+import pandas as pd
+import os
+
+## 여러 DB 불러오기
+## db1 : 농촌진흥청_원재료_DB (NongChon_Base_DB_modify)
+##db3 :  식품의약품안전처_음식 + 가공식품_DB (foodsafe_totalfood_DB)
+
+db1 = pd.read_excel(r'C:/Users/dnltj/Downloads/pro_food/NongChon_Base_DB_modify.xlsx') 
+db3 = pd.read_csv(r"C:/Users/dnltj/Downloads/pro_food/foodsafe_totalfood_DB.csv", encoding='cp949')
+
+## 간략한 DB정보 확인
+print(db1.info())
+print(db3.info())
+
+
+## 비교 전 컬럼명 통일
+print(db1.columns)
+print(db3.columns)
+
+db1.rename(columns = {'에너지':'에너지(kcal)', '단백질':'단백질(g)', '지방 ':'지방(g)', 
+            '탄수화물':'탄수화물(g)', '당류':'당류(g)', '나트륨':'나트륨(mg)', '콜레스테롤':'콜레스테롤(mg)',
+            '총 포화\n지방산':'포화지방산(g)','총 트랜스\n지방산':'트랜스지방산(g)'}, inplace= True)
+db3.rename(columns = {'출처명' : '출처'})
+
+##중복 데이터 확인
+overlap = pd.merge(db1, db3, on = ["에너지(kcal)","단백질(g)","지방(g)","탄수화물(g)","당류(g)","나트륨(mg)","포화지방산(g)",
+                  "트랜스지방산(g)","콜레스테롤(mg)"], how = "inner")
+print("중복된 데이터 개수:", len(overlap))
+overlap.head()
+
+## 병합
+merged_db = pd.concat([db1, db3], keys=['db1', 'db3'], axis=0)
+merged_db.info()
+
+## 파일로 저장
+merged_db.to_excel("merged_food_DB.xlsx", index = False)
+
+## 저장된 위치 확인
+print(os.getcwd())
+
