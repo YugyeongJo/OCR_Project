@@ -138,6 +138,8 @@ async def main():
         'prdlst_report_ledg_no': prdlst_report_ledg_no_list
     }
 
+    # prdlst_report_ledg_no를 json 파일로 저장
+    
     # 추가 데이터 스크래핑하여 딕셔너리에 저장
     await scrape_additional_info(data_dict)
 
