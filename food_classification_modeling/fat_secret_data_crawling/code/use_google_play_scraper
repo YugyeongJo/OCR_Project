@@ -1,0 +1,129 @@
+from google_play_scraper import app, Sort, reviews
+import pandas as pd
+
+import pandas as pd
+
+
+# 어플 기본 정보 입력
+result = app(
+    "com.fatsecret.android",
+    lang="ko",
+    country="kr"
+)
+
+# # 리뷰 크롤링 (1점 리뷰만 가져오기)
+# result_1, continuation_token = reviews(
+#     "com.fatsecret.android",
+#     lang="ko",
+#     country="kr",
+#     sort=Sort.NEWEST,
+#     count=200,                      # 한번에 가져올 리뷰 갯수
+#     filter_score_with=1               # 평점이 1점인 것만 가져옴
+# )
+
+# result_1, _ = reviews(
+#     "com.fatsecret.android",
+#     continuation_token=continuation_token
+# )
+
+# # 2점 리뷰 크롤링
+# result_2, continuation_token = reviews(
+#     "com.fatsecret.android",
+#     lang="ko",
+#     country="kr",
+#     sort=Sort.NEWEST,
+#     count=100,                      # 한번에 가져올 리뷰 갯수
+#     filter_score_with=2               # 평점이 2점인 것만 가져옴
+# )
+
+# result_2, _ = reviews(
+#     "com.fatsecret.android",
+#     continuation_token=continuation_token
+# )
+
+# # 3점 리뷰 크롤링
+# result_3, continuation_token = reviews(
+#     "com.fatsecret.android",
+#     lang="ko",
+#     country="kr",
+#     sort=Sort.NEWEST,
+#     count=400,                      # 한번에 가져올 리뷰 갯수
+#     filter_score_with=3               # 평점이 3점인 것만 가져옴
+# )
+
+# result_3, _ = reviews(
+#     "com.fatsecret.android",
+#     continuation_token=continuation_token
+# )
+
+# # 4점 리뷰 크롤링
+# result_4, continuation_token = reviews(
+#     "com.fatsecret.android",
+#     lang="ko",
+#     country="kr",
+#     sort=Sort.NEWEST,
+#     count=500,                      # 한번에 가져올 리뷰 갯수
+#     filter_score_with=4               # 평점이 4점인 것만 가져옴
+# )
+
+# result_4, _ = reviews(
+#     "com.fatsecret.android",
+#     continuation_token=continuation_token
+# )
+
+# # 5점 리뷰 크롤링
+# result_5, continuation_token = reviews(
+#     "com.fatsecret.android",
+#     lang="ko",
+#     country="kr",
+#     sort=Sort.NEWEST,
+#     count=600,                      # 한번에 가져올 리뷰 갯수
+#     filter_score_with=5               # 평점이 5점인 것만 가져옴
+# )
+
+# result_5, _ = reviews(
+#     "com.fatsecret.android",
+#     continuation_token=continuation_token
+# )
+
+# # 각각의 데이터를 데이터프레임으로 변환
+# df_1_3 = pd.DataFrame(result_1 + result_2 + result_3)  # 별점 1, 2, 3 리뷰 데이터프레임
+# df_4_5 = pd.DataFrame(result_4 + result_5)  # 별점 4, 5 리뷰 데이터프레임
+
+## 모든 리뷰 가져오기
+import time
+from google_play_scraper import Sort, reviews
+
+all_reviews = []        #리뷰가 저장될 리스트
+total_reviews = 300000  #크롤링할 리뷰 갯수
+
+# 1000개씩 가져오기
+for i in range(0, total_reviews, 1000): 
+    result, _ = reviews(
+        "com.fatsecret.android",
+        lang="ko",
+        country="kr",
+        sort=Sort.NEWEST,
+        count=min(1000, total_reviews - i),  # 남은 리뷰 수에 따라 조정
+    )
+    all_reviews.extend(result)
+
+    time.sleep(1)  # 요청 간의 대기 시간 (1초)
+
+
+#print(f"총 리뷰 수: {len(all_reviews)}")
+
+
+##DataFrame으로 변경
+df_all = pd.DataFrame(all_reviews)
+df_all.info()
+
+
+##csv 파일로 저장
+df_all.to_csv("fat_scecret_reviews.csv", index = False, encodng = "utf-8-sig")
+
+
+## 키워드 추출하기
+
+
+
