@@ -1,19 +1,50 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-import csv
+from selenium.webdriver.common.by import By
 import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-# 구글플레이 리뷰 페이지로 이동
+# ChromeDriver 경로 설정
 service = Service(executable_path='C:/Users/dnltj/OneDrive/문서/GitHub/OCR_Project/food_classification_modeling/fat_secret_data_crawling/etc/chromedriver.exe')
 
+# 구글 플레이로 이동
 driver = webdriver.Chrome(service=service)
-driver.get("https://play.google.com/store/apps/details?id=com.fatsecret.android&hl=ko")
+
+# URL로 이동
+url = "https://play.google.com/store/apps/details?id=com.fatsecret.android&hl=ko"
+driver.get(url)  # driver.get() 사용
+
+# 페이지 로딩 대기
+time.sleep(2)
+
+# 스크롤을 통해 요소를 화면에 보이게 함
+scroll_count = 3  # 스크롤 횟수
+for _ in range(scroll_count):
+    driver.execute_script("window.scrollBy(0, 1000);")  # 아래로 1000픽셀 스크롤
+    time.sleep(1)  # 스크롤 후 잠시 대기
 
 # 리뷰 모두 보기 클릭
-button = driver.find_element(By.CSS_SELECTOR, "span.VfPpkd-vQzf8d")
-button.click()
+try:
+    button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "span.VfPpkd-vQzf8d"))
+    )
+    button.click()
 
+except Exception as e:
+    print(f"버튼 클릭 중 오류 발생: {e}")
+
+try:
+    button_tt = driver.find_element(By.CSS_SELECTOR, value=button)
+    button_tt.click()
+except Exception as e:
+    print(f"오류 발생: {e}")
+
+time.sleep(2)  # 대기
+driver.quit()  # 드라이버 종료
+
+
+"""             
 # 페이지 스크롤해서 더 많은 리뷰 로드
 SCROLL_PAUSE_TIME = 2
 last_height = driver.execute_script("return document.body.scrollHeight")
@@ -44,3 +75,4 @@ with open('reviews.csv', 'w', newline='', encoding='utf-8') as csvfile:
 
 # 드라이버 종료
 driver.quit()
+"""
