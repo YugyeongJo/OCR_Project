@@ -123,7 +123,18 @@ df_all.info()
 df_all.to_csv("fat_scecret_reviews.csv", index = False, encodng = "utf-8-sig")
 
 
-## 키워드 추출하기
+## df 내 키워드가 포함된 댓글만 가져오기
+# 개선을 원하는 키워드 리스트 설정
+improvement_keywords = ['수정', '개선', '불편', '문제', '오류', '버그', '느림', '고쳐', '고쳤']
 
+# 각 키워드가 content에 포함된 행 필터링
+improvement_reviews = df_all[df_all['content'].str.contains('|'.join(improvement_keywords), case=False, na=False)]
+
+## content컬럼 내 리뷰키워드 csv에 저장
+improvement_reviews.to_csv("reviews_keywords.csv", index = False, encodng = 'utf-8-sig')
+
+import os
+location = os.getcwd()
+print(location)
 
 
