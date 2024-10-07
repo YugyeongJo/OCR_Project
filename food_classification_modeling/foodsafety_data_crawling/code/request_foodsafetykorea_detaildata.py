@@ -107,8 +107,8 @@ async def main():
     json_file_path = '../data/prdlst_report_ledg_no.json'
 
     # Batch 수집 설정
-    start_idx = 0  ####시작 인덱스 data 폴더 파일명 보고 매번 수정해서 진행
-    batch_size = 300  # 300개씩 처리
+    start_idx = 9800  ####시작 인덱스 data 폴더 파일명 보고 매번 수정해서 진행
+    batch_size = 800  # 300개씩 처리
 
     # Batch로 추가 정보 수집
     await scrape_additional_info_batch(json_file_path, start_idx, batch_size)
