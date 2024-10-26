@@ -27,8 +27,6 @@ OCR_Project/
 └── README.md              # 프로젝트 설명
 ```
 
-## 🗄 ERD
-
 ## 👥 Team Members
 |이름|역할|Github|
 |--|--|--|
