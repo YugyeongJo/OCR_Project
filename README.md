@@ -30,5 +30,6 @@ OCR_Project/
 ## 👥 Team Members
 |이름|역할|Github|
 |--|--|--|
-||||
+
+
 
