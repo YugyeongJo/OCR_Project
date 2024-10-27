@@ -23,7 +23,10 @@ pip install -r requirements.txt
 
 ```markdown
 OCR_Project/
-├── /data                  # 데이터셋 및 중간 결과물 저장
+├── 
+├── competitor_applications_topic_modeling/
+├── food_classification_modeling/
+├── study_file/
 └── README.md              # 프로젝트 설명
 ```
 
