@@ -27,9 +27,10 @@ def save_image(image_url, title, count):
         response = requests.get(image_url)
 
         if response.status_code == 200:
+            img_format = image_url.split(".")[-1]
             img = Image.open(BytesIO(response.content))
-            img_filename = f"images/{title}_{count}.jpg"
-            img.save(img_filename, format = "JPG")
+            img_filename = f"images/{title}_{count}.{img_format}"
+            img.save(img_filename)
             print(f"Saved image: {img_filename}")
         else:
             print(f"Failed to download image from {image_url} (Status Code: {response.status_code})")
