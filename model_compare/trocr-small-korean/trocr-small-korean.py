@@ -27,7 +27,7 @@ image_files = [os.path.join(image_folder_path, f) for f in os.listdir(image_fold
 for image_path in image_files:
     # 이미지 열기
     image = Image.open(image_path).convert("RGB")  # 이미지 변환
-    f_name = os.path.basename(image_path).split('.')[0]  # 파일 이름 생성
+    f_name = os.path.basename(image_path) # 파일 이름 생성
     
     # 이미지로 OCR 수행
     pixel_values = processor(images=image, return_tensors="pt").pixel_values
