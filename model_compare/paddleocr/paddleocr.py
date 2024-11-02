@@ -9,7 +9,7 @@ import os
 logging.getLogger("ppocr").setLevel(logging.ERROR)
 
 def save_json(dict):
-    save_path = 'C:/Users/dnltj/OneDrive/바탕 화면/project/paddle_ocr/paddleocr_result'
+    save_path = 'C:/Users/dnltj/OneDrive/바탕 화면/project/paddle_ocr/paddleocr_result'  ## 저장할 파일 경로
     os.makedirs(save_path, exist_ok=True)  
     with open(os.path.join(save_path, 'paddle_result.json'), 'w+', encoding='utf-8') as json_file:
         json.dump(dict, json_file, ensure_ascii=False, indent=4)
@@ -21,14 +21,14 @@ def folder_or_img(path, func):
         img_lst = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
         for i in img_lst:
             recognition_lst, confidence_lst = func(os.path.join(path, i))
-            temp_dict[os.path.basename(i)] = ''.join(recognition_lst)  # 리스트를 문자열로 병합하여 저장
+            temp_dict[os.path.basename(i)] = ''.join(recognition_lst)  
             #print(f"Save {os.path.basename(i)}")
 
         save_json(temp_dict)
 
     else:
         recognition_lst, confidence_lst = func(path)
-        temp_dict[os.path.basename(path)] = ''.join(recognition_lst)  # 리스트를 문자열로 병합하여 저장
+        temp_dict[os.path.basename(path)] = ''.join(recognition_lst)  
         #print(f"Save {os.path.basename(path)}")
 
     save_json(temp_dict)
@@ -48,5 +48,5 @@ def detection(image_path):
     return recognition_lst, confidence_lst
 
 if __name__ == '__main__':
-    path = 'C:/Users/dnltj/OneDrive/바탕 화면/project/paddle_ocr/word_images_split'
+    path = 'C:/Users/dnltj/OneDrive/바탕 화면/project/paddle_ocr/word_images_split' ## 적용 파일 경로
     folder_or_img(path, detection)
