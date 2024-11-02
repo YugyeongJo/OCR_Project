@@ -1,0 +1,13 @@
+This project utilizes PopEval, which is licensed under the Apache License, Version 2.0.
+
+For more details, refer to the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
+
+Citation:
+If you find this work useful for your research, please cite it as follows:
+
+@inproceedings{popeval19,
+  title={PopEval: A Character-Level Approach to End-To-End Evaluation Compatible with Word-Level Benchmark Dataset},
+  author={Hong-Seok Lee, Youngmin Yoon, Pil-Hoon Jang, Chankyu Choi},
+  booktitle = {International Conference of Document Analysis and Recognition (ICDAR)},
+  year={2019}
+}
