@@ -1,6 +1,6 @@
 # OCR Project 📷
 
-> **TrOCR 모델과 CRAFT를 활용한 개인 맞춤형 식단 관리 시스템**
+> **TrOCR 모델과 CRAFT 모델을 활용한 식품 영양성분표 텍스트 추출 시스템**
 
 ## 📝 Description 
 이 프로젝트는 TrOCR(Transformer-based Optical Character Recognition)와 CRAFT(Character Region Awareness for Text detection) 모델을 결합하여 식품 영양성분표 이미지에서 텍스트를 정확하게 추출합니다. 추출된 텍스트를 바탕으로 개인 맞춤형 식단 관리 서비스에 이용할 수 있습니다. 
