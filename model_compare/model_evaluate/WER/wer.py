@@ -59,6 +59,7 @@ if __name__ == '__main__':
     pred_path_trocr_small = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/trocr-small-korean/predict_result/trocr-small-korean_result.json" # trocr_small
     pred_path_padle = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/paddleocr/result/paddle_result.json" # padle
     pred_path_daekeun = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/deakeun/daekeun_result.json"
+    pytesseract_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/pytesseract/predict_result/pytesseract_result_edit.json'
 
     output_path = "wer_results.json"
-    calculate_wer_from_json(gt_file_path, pred_path_daekeun, output_path)
+    calculate_wer_from_json(gt_file_path, pytesseract_path, output_path)

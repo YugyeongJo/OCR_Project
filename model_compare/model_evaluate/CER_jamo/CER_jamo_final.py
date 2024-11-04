@@ -62,7 +62,10 @@ if __name__ == '__main__':
     daekeun_result_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/deakeun/daekeun_result.json'  # 실제 파일 경로 입력
     small_korean_result_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/trocr-small-korean/predict_result/trocr-small-korean_result.json'
     padle_result_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/paddleocr/result/paddle_result.json'
+    pytesseract_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/pytesseract/predict_result/pytesseract_result_edit.json'
+
     ground_truth_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/model_evaluate/ground_truth/ground_truth_20K.json'
+    
     output_path = 'cer_results.json'
     # CER 계산 함수 호출
-    calculate_cer(padle_result_path, ground_truth_path, output_path)
+    calculate_cer(pytesseract_path, ground_truth_path, output_path)
