@@ -27,7 +27,11 @@ TrOCR 모델은 CRAFT 모델이 제공한 바운딩 박스를 기반으로 텍�
 - TrOCR for text recognition
 - PyTorch for deep learning modeling
 - OpenCV for image processing
-- NLTK for natural language processing
+
+|<center>PyTorch</center>|<center>HuggingFace</center>|
+|--|--|
+|||
+|<img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white">|<img src="https://img.shields.io/badge/HuggingFace-%23FFBF00.svg?style=for-the-badge&logo=huggingface&logoColor=black">|
 
 ## 📊 Dataset
 - **데이터 출처**: 식품 영양성분표 이미지 (사용자가 업로드한 사진)
