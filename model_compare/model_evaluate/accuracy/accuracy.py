@@ -74,6 +74,8 @@ def evaluate_accuracy(predicted_file, ground_truth_file):
 
 # 메인 실행
 if __name__ == '__main__':
-    pred_path="C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/ddobokki/results/ddobokki_result.json"
+    pred_path_ddobokki ="C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/ddobokki/results/ddobokki_result.json" # ddobokki
+    pred_path_trocr_small = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/trocr-small-korean/predict_result/trocr-small-korean_result.json"
+    pred_path_padle = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/paddleocr/result/paddle_result.json"
     ground_path="C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/model_evaluate/ground_truth/ground_truth_20K.json"
-    evaluate_accuracy(pred_path, ground_path)
+    evaluate_accuracy(pred_path_padle, ground_path)
