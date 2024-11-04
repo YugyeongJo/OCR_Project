@@ -17,16 +17,16 @@ def cer(reference, hypothesis):
     return cer_score
 
 # JSON 파일 경로 설정 (ddobokki)
-ddobokki_result_path = '../results/ddobokki_result.json'  # 실제 파일 경로 입력
-ground_truth_path = '../results/ground_truth_20K.json'  # 실제 파일 경로 입력
+ddobokki_result_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/ddobokki/results/ddobokki_result.json'  # 실제 파일 경로 입력
+ground_truth_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/model_evaluate/ground_truth/ground_truth_20K.json'  # 실제 파일 경로 입력
 
 
 # JSON 파일 경로 설정 (daekeun)
-daekeun_result_path = '../../model_evaluate/accuracy/daekeun_result.json'  # 실제 파일 경로 입력
-ground_truth_path = '../results/ground_truth_20K.json'  # 실제 파일 경로 입력
+daekeun_result_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/deakeun/daekeun_result.json'  # 실제 파일 경로 입력
+ground_truth_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/model_evaluate/ground_truth/ground_truth_20K.json'  # 실제 파일 경로 입력
 
 # JSON 파일 읽기
-with open(daekeun_result_path, 'r', encoding='utf-8') as file:
+with open(ddobokki_result_path, 'r', encoding='utf-8') as file:
     ocr_results = json.load(file)
 
 with open(ground_truth_path, 'r', encoding='utf-8') as file:
@@ -46,8 +46,13 @@ for filename, ocr_text in ocr_results.items():
 average_cer = np.mean(list(cer_results.values()))
 print(f"Average CER: {average_cer:.4f}")
 
+result_data = {
+    "average_cer": average_cer,
+    "cer_scores": cer_results
+}
+
 # 결과를 JSON 파일로 저장
 with open("cer_results.json", "w", encoding="utf-8") as outfile:
-    json.dump(cer_results, outfile, ensure_ascii=False, indent=4)
+    json.dump(result_data, outfile, ensure_ascii=False, indent=4)
 
 print("CER calculation complete. Results saved in cer_results.json")
