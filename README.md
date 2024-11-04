@@ -30,7 +30,7 @@ TrOCR 모델은 CRAFT 모델이 제공한 바운딩 박스를 기반으로 텍�
 
 |<center>PyTorch</center>|<center>HuggingFace</center>|
 |--|--|
-|<p align="center"><img alt="Pytorch" src="./icons/Pytoch-Dark.svg" width="48"></p>||
+|<p align="center"><img alt="Pytorch" src="./icons/PyTorch-Dark.svg" width="48"></p>||
 |<img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white">|<img src="https://img.shields.io/badge/HuggingFace-%23FFBF00.svg?style=for-the-badge&logo=huggingface&logoColor=black">|
 
 ## 📊 Dataset
