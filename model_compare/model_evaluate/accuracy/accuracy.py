@@ -2,7 +2,7 @@ import json
 import os
 
 # OCR 결과와 정답 데이터를 불러오는 함수
-def load_results(predicted_file="ocr_result.json", ground_truth_file="ground_truth.json"):
+def load_results(predicted_file="daekeun_result.json", ground_truth_file="ground_truth_20K.json"):
     try:
         with open(predicted_file, 'r', encoding='utf-8') as pred_file:
             predicted_data = json.load(pred_file)
@@ -46,9 +46,12 @@ def evaluate_accuracy(predicted_file="ocr_result.json", ground_truth_file="groun
     
     print(f"\nOCR 정확도: {accuracy:.2f}%")
     print("\n예측 결과:")
-    for image_name, pred_text in formatted_predictions.items():
-        print(f"{image_name}: {pred_text}")  # (예측값 출력 형식: 각 이미지 파일명과 예측 데이터 출력)
+    #for image_name, pred_text in formatted_predictions.items():
+        #print(f"{image_name}: {pred_text}")  # (예측값 출력 형식: 각 이미지 파일명과 예측 데이터 출력)
 
 # 메인 실행
 if __name__ == '__main__':
-    evaluate_accuracy()
+    print("================",os.getcwd())
+    pred_path="daekeun_result.json"
+    ground_path="ground_truth_20K.json"
+    evaluate_accuracy(pred_path,ground_path)
