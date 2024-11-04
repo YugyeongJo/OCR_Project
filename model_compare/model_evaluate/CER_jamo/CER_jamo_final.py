@@ -5,8 +5,8 @@ from difflib import SequenceMatcher
 
 def cer(reference, hypothesis):
     """한글 CER을 계산하는 함수. 자모 단위로 문장을 비교합니다."""
-    ref = j2hcj(h2j(reference))
-    hyp = j2hcj(h2j(hypothesis))
+    ref = j2hcj(h2j(reference).strip())
+    hyp = j2hcj(h2j(hypothesis).strip())
     
     # Levenshtein Distance 계산
     matcher = SequenceMatcher(None, ref, hyp)
@@ -68,4 +68,4 @@ if __name__ == '__main__':
     
     output_path = 'cer_results.json'
     # CER 계산 함수 호출
-    calculate_cer(pytesseract_path, ground_truth_path, output_path)
+    calculate_cer(small_korean_result_path, ground_truth_path, output_path)
