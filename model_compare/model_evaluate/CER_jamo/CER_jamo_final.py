@@ -16,12 +16,17 @@ def cer(reference, hypothesis):
     cer_score = edits / max(len(ref), 1)
     return cer_score
 
-# JSON 파일 경로 설정
-ddobokki_result_path = 'ddobokki_result.json'  # 실제 파일 경로 입력
-ground_truth_path = 'ground_truth_20K.json'  # 실제 파일 경로 입력
+# JSON 파일 경로 설정 (ddobokki)
+ddobokki_result_path = '../results/ddobokki_result.json'  # 실제 파일 경로 입력
+ground_truth_path = '../results/ground_truth_20K.json'  # 실제 파일 경로 입력
+
+
+# JSON 파일 경로 설정 (daekeun)
+daekeun_result_path = '../../model_evaluate/accuracy/daekeun_result.json'  # 실제 파일 경로 입력
+ground_truth_path = '../results/ground_truth_20K.json'  # 실제 파일 경로 입력
 
 # JSON 파일 읽기
-with open(ddobokki_result_path, 'r', encoding='utf-8') as file:
+with open(daekeun_result_path, 'r', encoding='utf-8') as file:
     ocr_results = json.load(file)
 
 with open(ground_truth_path, 'r', encoding='utf-8') as file:
