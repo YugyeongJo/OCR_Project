@@ -333,6 +333,7 @@ def process( gt_file, pred_file, dontcare_text):
     except Exception as e:
         print(filename, e)
         print(traceback.format_exc())
+        
 
 
 
