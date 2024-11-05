@@ -23,7 +23,10 @@ def calculate_wer_from_json(gt_file_path, pred_file_path, output_path):
         
         # 각 이미지 파일의 텍스트에 대해 WER 계산
         for key, gt_text in gt_data.items():
-            pred_text = pred_data.get(key, "").strip()  # 예측 파일에서 해당 키의 텍스트를 가져옴
+            if pred_data.get(key, "") is None:
+                pred_text = ""
+            else:
+                pred_text = pred_data.get(key, "").strip()  # 예측 파일에서 해당 키의 텍스트를 가져옴
             
             # gt_text나 pred_text가 빈 문자열일 경우 건너뜁니다.
             if not gt_text.strip() or not pred_text:
@@ -61,5 +64,7 @@ if __name__ == '__main__':
     pred_path_daekeun = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/deakeun/daekeun_result.json"
     pytesseract_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/pytesseract/predict_result/pytesseract_result_edit.json'
 
+    easyOCR_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/easyocr/predict_result/easyOCR_result.json'
+
     output_path = "wer_results.json"
-    calculate_wer_from_json(gt_file_path, pytesseract_path, output_path)
+    calculate_wer_from_json(gt_file_path, easyOCR_path, output_path)

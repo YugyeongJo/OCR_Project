@@ -7,7 +7,7 @@ from PIL import Image
 
 sys.path.append(os.path.abspath('..'))
 from model_evaluate.accuracy import accuracy
-from model_evaluate.CER_jamo import CER_jamo_final
+from model_compare.ddobokki.test import CER_jamo_final_test1
 from model_evaluate.WER import wer
 
 def parse_str(array):
@@ -64,5 +64,5 @@ if __name__ == '__main__':
     ground_json = 'C:/OCR_Project/model_compare/model_evaluate/ground_truth/ground_truth.json'
     output_path = 'C:/OCR_Project/model_compare/easyocr/predict_result'
     accuracy.evaluate_accuracy(easyocr_json, ground_json)
-    CER_jamo_final.calculate_cer(easyocr_json, ground_json, output_path)
+    CER_jamo_final_test1.calculate_cer(easyocr_json, ground_json, output_path)
     wer.calculate_wer_from_json(ground_json, easyocr_json, output_path)

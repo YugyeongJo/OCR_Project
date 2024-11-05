@@ -34,10 +34,6 @@ def calculate_cer(ocr_result_path, ground_truth_path, output_path="cer_results.j
     # CER 계산 및 결과 저장
     cer_results = {}
     for filename, ocr_text in ocr_results.items():
-        if ocr_text is None:
-            print(f"Warning: OCR result for file '{filename}' is null. Setting it as an empty string.")
-            ocr_text = ""
-            print(ocr_text)
         reference_text = reference_texts.get(filename, "")
         cer_score = cer(reference_text, ocr_text)
         cer_results[filename] = cer_score
@@ -74,6 +70,3 @@ if __name__ == '__main__':
     output_path = 'cer_results.json'
     # CER 계산 함수 호출
     calculate_cer(easyOCR_path, ground_truth_path, output_path)
-
-    # data = load_json(easyOCR_path)
-    # print(type(data['02235412.png']))
