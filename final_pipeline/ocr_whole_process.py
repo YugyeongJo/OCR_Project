@@ -1,5 +1,6 @@
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel, AutoTokenizer
 import requests
+import unicodedata
 from io import BytesIO
 from PIL import Image
 import os
@@ -15,6 +16,10 @@ custom_folder = './CRAFT_pytorch'
 sys.path.append(custom_folder)
 
 from collections import OrderedDict
+from craft import CRAFT
+import craft_utils
+import imgproc
+
 def copyStateDict(state_dict):
     if list(state_dict.keys())[0].startswith("module"):
         start_idx = 1
@@ -26,9 +31,9 @@ def copyStateDict(state_dict):
         new_state_dict[name] = v
     return new_state_dict
 
-from craft import CRAFT
-import craft_utils
-import imgproc
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
 
 
 class CLOVA_CRAFT:
@@ -77,13 +82,14 @@ class CLOVA_CRAFT:
 class Just_TrOCR:
 
     def detecting(self,img):
-        processor = TrOCRProcessor.from_pretrained("microsoft/trocr-base-handwritten")
-        model = VisionEncoderDecoderModel.from_pretrained("daekeun-ml/ko-trocr-base-nsmc-news-chatbot")
-        tokenizer = AutoTokenizer.from_pretrained("daekeun-ml/ko-trocr-base-nsmc-news-chatbot")
+        processor = TrOCRProcessor.from_pretrained("ddobokki/ko-trocr")
+        model = VisionEncoderDecoderModel.from_pretrained("ddobokki/ko-trocr").to(device)
+        tokenizer = AutoTokenizer.from_pretrained("ddobokki/ko-trocr")
 
-        pixel_values = processor(img, return_tensors="pt").pixel_values
+        pixel_values = processor(img, return_tensors="pt").pixel_values.to(device)
         generated_ids = model.generate(pixel_values, max_length=64)
         generated_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+        generated_text = unicodedata.normalize("NFC", generated_text)
         return generated_text
 
 
@@ -95,8 +101,12 @@ def folder_or_img(path,func):
     temp_dict=dict({})
 
     if os.path.isdir(path):
-
         img_lst=[f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+
+        pred_text_path = os.path.join(path, "pred_text")#박스의 좌표와 그에 따른 텍스트 저장을 위한 경로 만들기
+        if not os.path.exists(pred_text_path):
+            os.makedirs(pred_text_path)
+
         for i in img_lst:
             res_text=func(os.path.join(path,i))
             temp_dict[os.path.basename(i)]=res_text
@@ -104,43 +114,104 @@ def folder_or_img(path,func):
 
     else:
         pass
-        # tempstr=str("")
-        # recognition_lst, confidence_lst=func(path)
-        # for str_ in recognition_lst:
-        #     tempstr+=str_
-        # temp_dict[os.path.basename(path)]=tempstr
+        #res_text=func(os.path.join(path,i))
+        #temp_dict[os.path.basename(i)] = res_text
+        #save_json(temp_dict)
+
+
+def group_and_sort_boxes(boxes):
+    # Step 1: 그룹을 위한 리스트 초기화
+    grouped_boxes = []
+
+    # Step 2: 각 박스를 확인하며 그룹화
+    for box in boxes:
+        x_min, y_min = box[0]  # 왼쪽 위 좌표
+        x_max, y_max = box[2]  # 오른쪽 아래 좌표
+        height = y_max - y_min
+
+        # 높이 좌표 유사성 그룹을 찾거나 새로운 그룹 생성
+        added_to_group = False
+        for group in grouped_boxes:
+            _, y_min_group = group[0][0]
+            _, y_max_group = group[0][2]
+            group_height = y_max_group - y_min_group
+            if abs(y_min - y_min_group) <= group_height / 2:  # 높이 유사성 기준
+                group.append(box)
+                added_to_group = True
+                break
+
+        if not added_to_group:
+            grouped_boxes.append([box])  # 새로운 그룹 생성
+
+    # Step 3: 각 그룹을 x 좌표의 최소값 기준으로 정렬
+    for group in grouped_boxes:
+        group.sort(key=lambda b: b[0][0])
+
+    return grouped_boxes
+
 
 if __name__ == '__main__':
+
     just_craft=CLOVA_CRAFT()
-    daekeun_trocr=Just_TrOCR()
-    path="H:/img_sample"
+    ddobokki_trocr=Just_TrOCR()
+    path="F:/abc/img_sample"
 
     def process(image_path):
         text_temp=str("")
-        model_path = 'CRAFT_pytorch/weights/craft_mlt_25k.pth'
+        model_path = './CRAFT_pytorch/weights/craft_mlt_25k.pth'
         net = just_craft.load_craft_model(model_path)
         image = imgproc.loadImage(image_path)
 
+        current_folder_path=os.path.dirname(image_path)
+        pred_text_path = os.path.join(current_folder_path, "pred_text")
+        pred_text_file_path =os.path.join(pred_text_path, f'{os.path.basename(image_path)}_pred.txt')
 
         boxes, polys = just_craft.detect_text_boxes(net, image)#박스영역 검출 결과
         image = Image.open(image_path)
 
-        for box in boxes:# 한 박스당 한 줄씩 저장 y 값에 따라 줄을 분리 하려면 추가 수정 필요
-            #print('box printing',box)
-            """
-            box[0],box[1],box[2],box[3]
-            box printing [[ 8.       10.666667]
-                             [28.       10.666667]
-                             [28.       28.      ]
-                             [ 8.       28.      ]]
-            """
-            left,upper,right,lower=int(box[0][0]),int(box[1][1]),int(box[2][0]),int(box[3][1])
-            print("LURL  == ",left,upper,right,lower)
-            cropped_image = image.crop((left,upper,right,lower))
-            text_detected=daekeun_trocr.detecting(cropped_image)
-            if text_temp!="":
+        sorted_box=group_and_sort_boxes(boxes)#y유사성에 따라 박스를 묶은 뒤 x를 기준으로 sort
+
+        with open(pred_text_file_path , "w+") as file:# 다시 돌릴 경우 초기화
+            pass
+
+        for sort_idx,box_y_sort in enumerate( sorted_box):
+
+            assert isinstance(sorted_box,list)
+
+            for idx,box in enumerate(box_y_sort):
+                #print('box printing',box)
+                assert isinstance(box_y_sort,list)
+                assert isinstance(box,np.ndarray)
+
+                box=box.tolist()
+
+                """
+                box[0],box[1],box[2],box[3]
+                box printing [[ 8.       10.666667]
+                                 [28.       10.666667]
+                                 [28.       28.      ]
+                                 [ 8.       28.      ]]
+                """
+
+                left,upper,right,lower=int(box[0][0]),int(box[1][1]),int(box[2][0]),int(box[3][1])
+
+                cropped_image = image.crop((left,upper,right,lower))
+
+                text_detected=ddobokki_trocr.detecting(cropped_image)
+                assert isinstance(text_detected,str)
+
+                with open(pred_text_file_path, "a+") as file:#txt 파일로도 추출 좌표##:: 텍스트 형태
+                    pop_standard=f'{int(box[0][0])} {int(box[0][1])} {int(box[1][0])} {int(box[1][1])} {int(box[2][0])} {int(box[2][1])} {int(box[3][0])} {int(box[3][1])}##::{text_detected}\n'
+                    file.write(pop_standard)
+
+                text_temp+=text_detected
+
+                if idx != len(box_y_sort)-1:
+                    text_temp+=str(" ")
+
+            if sort_idx!=len(sorted_box)-1:
                 text_temp+="\n"
-            text_temp+=text_detected
+
         print(text_temp)
         return text_temp
 
