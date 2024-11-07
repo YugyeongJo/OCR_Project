@@ -6,6 +6,7 @@ def load_results(predicted_file, ground_truth_file):
     try:
         with open(predicted_file, 'r', encoding='utf-8') as pred_file:
             predicted_data = json.load(pred_file)
+            predicted_data = {key: value.strip() if isinstance(value, str) else value for key, value in predicted_data.items()}
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Error loading predicted file: {e}")
         return {}, {}
@@ -13,6 +14,7 @@ def load_results(predicted_file, ground_truth_file):
     try:
         with open(ground_truth_file, 'r', encoding='utf-8') as gt_file:
             ground_truth_data = json.load(gt_file)
+            ground_truth_data = {key: value.strip() if isinstance(value, str) else value for key, value in ground_truth_data.items()}
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Error loading ground truth file: {e}")
         return {}, {}
@@ -74,6 +76,12 @@ def evaluate_accuracy(predicted_file, ground_truth_file):
 
 # 메인 실행
 if __name__ == '__main__':
-    pred_path="C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/ddobokki/results/ddobokki_result.json"
+    pred_path_ddobokki ="C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/ddobokki/results/ddobokki_result.json" # ddobokki
+    pred_path_trocr_small = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/trocr-small-korean/predict_result/trocr-small-korean_result.json"
+    pred_path_padle = "C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/paddleocr/result/paddle_result.json"
+    pytesseract_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/pytesseract/predict_result/pytesseract_result_edit.json'
+    easyOCR_path = 'C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/easyocr/predict_result/easyOCR_result.json'
+
     ground_path="C:/Users/user/Desktop/SeSAC_DATA_AI/Medium_Project/OCR_Project/model_compare/model_evaluate/ground_truth/ground_truth_20K.json"
-    evaluate_accuracy(pred_path, ground_path)
+
+    evaluate_accuracy(easyOCR_path, ground_path)
