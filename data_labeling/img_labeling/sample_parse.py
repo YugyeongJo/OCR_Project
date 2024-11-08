@@ -11,7 +11,7 @@ def save_json(dict_,path,file_name):
 def save_dict_to_text(dict_,path,file_name):
     if not os.path.isdir(os.path.join(path,"ground_truth")):
         os.mkdir(os.path.join(path,"ground_truth"))
-    with open(f'{path}/ground_truth/{file_name}.txt','w+',encoding='utf-8') as j:
+    with open(f'{path}/ground_truth/{file_name}','w+',encoding='utf-8') as j:
         temp_str=""
         for x,y in dict_.items():
             xmin,xmax,ymin,ymax=y[0][0],y[0][1],y[0][2],y[0][3]
@@ -35,7 +35,7 @@ def parsing(text):
 
 
 if __name__=="__main__":
-    path="H:/2/rough"#test 라벨링 완료된 특정 folder를 기입하면 해당 경로에 json 폴더와 txt 폴더를 만듭니다.
+    path="H:/Labellmg/labelImg/detail"#test 라벨링 완료된 특정 folder를 기입하면 해당 경로에 json 폴더와 txt 폴더를 만듭니다.
     if os.path.isdir(path):
         dir_list=os.listdir(path)
         file_list=[i  for i in dir_list if os.path.isfile(os.path.join(path,i))]
