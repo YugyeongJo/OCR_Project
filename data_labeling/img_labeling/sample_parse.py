@@ -35,7 +35,7 @@ def parsing(text):
 
 
 if __name__=="__main__":
-    path="H:/Labellmg/labelImg/detail"#test 라벨링 완료된 특정 folder를 기입하면 해당 경로에 json 폴더와 txt 폴더를 만듭니다.
+    path="C:/develops/OCR_Project/data_labeling/img_labeling/3/detail"#test 라벨링 완료된 특정 folder를 기입하면 해당 경로에 json 폴더와 txt 폴더를 만듭니다.
     if os.path.isdir(path):
         dir_list=os.listdir(path)
         file_list=[i  for i in dir_list if os.path.isfile(os.path.join(path,i))]
