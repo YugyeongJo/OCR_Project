@@ -1,7 +1,7 @@
 <annotation>
 	<folder>3</folder>
 	<filename>Juicy_Cool_Pineapple_2.jpg</filename>
-	<path>C:\Users\user\Desktop\3\Juicy_Cool_Pineapple_2.jpg</path>
+	<path>C:\Users\user\Downloads\folder_1\simple\3\Juicy_Cool_Pineapple_2.jpg</path>
 	<source>
 		<database>Unknown</database>
 	</source>
@@ -377,9 +377,9 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>33</xmin>
+			<xmin>34</xmin>
 			<ymin>543</ymin>
-			<xmax>427</xmax>
+			<xmax>428</xmax>
 			<ymax>571</ymax>
 		</bndbox>
 	</object>
