@@ -11,7 +11,7 @@ def save_json(dict_,path,file_name):
 def save_dict_to_text(dict_,path,file_name):
     if not os.path.isdir(os.path.join(path,"ground_truth")):
         os.mkdir(os.path.join(path,"ground_truth"))
-    with open(f'{path}/ground_truth/{file_name}.txt','w+',encoding='utf-8') as j:
+    with open(f'{path}/ground_truth/{file_name}','w+',encoding='utf-8') as j:
         temp_str=""
         for x,y in dict_.items():
             xmin,xmax,ymin,ymax=y[0][0],y[0][1],y[0][2],y[0][3]
