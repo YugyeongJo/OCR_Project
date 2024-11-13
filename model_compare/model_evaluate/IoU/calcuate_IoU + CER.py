@@ -80,7 +80,7 @@ def calculate_iou_for_files(target_data, compare_data):
                     "iou": iou
             })
             # 디버깅 로그 추가
-            print(f"Target {t_index} vs Compare {c_index}: IOU={iou}")
+            #print(f"Target {t_index} vs Compare {c_index}: IOU={iou}")
     
     return iou_results
 
