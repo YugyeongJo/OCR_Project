@@ -43,6 +43,36 @@ def calculate_cer(text1, text2):
 
     return cer
 
+def parse_bbox_data(file_path):
+    """
+    주어진 파일에서 바운딩 박스 좌표와 텍스트를 읽어와 분리하여 반환.
+    
+    :param file_path: str, 텍스트 파일 경로
+    :return: 리스트, 각 요소가 {'bbox': [(x1, y1), (x2, y2), (x3, y3), (x4, y4)], 'text': 텍스트} 형태의 딕셔너리
+    """
+    result = []
+    
+    # 파일 읽기
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+
+    for line in lines:
+        # 좌표와 텍스트 분리
+        coords, text = line.strip().split("##::")
+        # 좌표 문자열을 정수형으로 변환하여 튜플로 저장
+        coord_values = list(map(int, coords.split()))
+        bbox = [
+            (coord_values[0], coord_values[1]),
+            (coord_values[2], coord_values[3]),
+            (coord_values[4], coord_values[5]),
+            (coord_values[6], coord_values[7])
+        ]
+        
+        # 결과에 추가
+        result.append({"bbox": bbox, "text": text})   # [{'bbox': [(14, 21), (14, 57), (134, 21), (134, 57)], 'text': '영양정보'}
+
+    return result
+
 def calculate_metrics(image_text_data, output_file="results.json"):
     """
     여러 이미지 텍스트에 대한 CER을 계산하고, 평균 CER과 각 이미지별 CER을 JSON 파일로 저장.
@@ -69,13 +99,18 @@ def calculate_metrics(image_text_data, output_file="results.json"):
     with open(output_file, "w") as file:
         json.dump(result, file, indent=4)
 
-# 예시 데이터
-image_text_data = {
-    "02234400.png": ("predicted text example", "predicted text example"),
-    "02234402.png": ("example prediction", "example prediction"),
-    "02234404.png": ("hello world", "helo wrld"),
-    # 더 많은 데이터 추가 가능
-}
+# # 예시 데이터
+# image_text_data = {
+#     "02234400.png": ("predicted text example", "predicted text example"),
+#     "02234402.png": ("example prediction", "example prediction"),
+#     "02234404.png": ("hello world", "helo wrld"),
+#     # 더 많은 데이터 추가 가능
+# }
 
 # 결과를 JSON 파일로 저장
-calculate_metrics(image_text_data)
+# calculate_metrics(image_text_data)
+
+data = "C:/Users/user/Desktop/iou_test/test/A_feeling_of_fried_onion_flavor_2.jpg.txt"
+parse_data = parse_bbox_data(data)
+print(parse_data)
+
