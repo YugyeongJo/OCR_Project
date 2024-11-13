@@ -1,5 +1,5 @@
 # OCR Project 📷
-
+>>> 내용 수정 필요
 > **TrOCR 모델과 CRAFT 모델을 활용한 식품 영양성분표 텍스트 추출 시스템**
 
 ## 📝 Description 
