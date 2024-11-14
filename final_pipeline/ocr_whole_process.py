@@ -41,6 +41,7 @@ class CLOVA_CRAFT:
     def load_craft_model(self,model_path):
         net = CRAFT()  # Initialize CRAFT
         net.load_state_dict(copyStateDict(torch.load(model_path, map_location='cuda' if torch.cuda.is_available() else 'cpu')))
+        net.to(device)
         net.eval()
         return net
 
@@ -154,7 +155,7 @@ if __name__ == '__main__':
 
     just_craft=CLOVA_CRAFT()
     ddobokki_trocr=Just_TrOCR()
-    path="F:/abc/img_sample"
+    path="C:/Users/user/Downloads/folder_1/simple/1"
 
     def process(image_path):
         text_temp=str("")
