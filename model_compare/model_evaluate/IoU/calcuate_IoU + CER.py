@@ -87,7 +87,7 @@ def calculate_iou_for_files(target_data, compare_data):
 if __name__ == "__main__":
     target_data = "C:/Users/dnltj/OneDrive/바탕 화면/iou_test/target/A_feeling_of_fried_onion_flavor_2.jpg.txt"
     compare_data = "C:/Users/dnltj/OneDrive/바탕 화면/iou_test/test/A_feeling_of_fried_onion_flavor_2.jpg.txt"
-    
+
     # IOU 계산
     iou_results = calculate_iou_for_files(target_data, compare_data)
 

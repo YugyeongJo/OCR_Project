@@ -99,10 +99,18 @@ def removeNoncontroversialBox(gt_boxes, gt_texts, pred_boxes, pred_texts):
 
     # shapely polygon query optimization
     gt_idx_by_id = dict((id(gt_box), i) for i, gt_box in enumerate(gt_boxes))
+
     gt_tree = STRtree(gt_boxes)
+
     for pred_idx, pred_box in enumerate(pred_boxes):
+
         searched_boxes = gt_tree.query(pred_box)
-        searched_indices = [gt_idx_by_id[id(gt_box)] for gt_box in searched_boxes]
+        if isinstance(searched_boxes, np.ndarray):# editing old version of shapely
+            matched_boxes = [gt_boxes[idx] for idx in searched_boxes]
+            #print(f"Matched polygons: {matched_boxes}")
+        searched_indices = [
+            gt_idx_by_id[id(gt_box)] for gt_box in matched_boxes
+        ]
         searched_texts = [new_gt_texts[gt_idx] for gt_idx in searched_indices]
         for gt_text, gt_idx in zip(searched_texts, searched_indices):
             pred_box = prep_pred_boxes[pred_idx]
@@ -112,7 +120,7 @@ def removeNoncontroversialBox(gt_boxes, gt_texts, pred_boxes, pred_texts):
                 for gt_char in gt_text:
                     if gt_char in pred_text_set: # if any character in gt exists in prediction text, we put this to gt_box_del_candidates
                         gt_box_del_candidates[gt_idx].append(pred_idx)
-                        break;
+                        break
     gt_box_del_candidates = dict(gt_box_del_candidates)
 
     # filtering non-controversial ones among gt_box_del_candidates
@@ -181,9 +189,16 @@ def removeNoncontroversialBox(gt_boxes, gt_texts, pred_boxes, pred_texts):
 
 def removeControversialBox(gt_boxes, gt_texts, pred_boxes, pred_texts, gt_box_del_candidates):
     gt_boxes, gt_texts, pred_boxes, pred_texts, gt_box_del_candidates = removeNoncontroversialBox(gt_boxes, gt_texts, pred_boxes, pred_texts)
+    cleaned_values = []
 
-    # if no gtbox remains, return the results.
-    value_uniq = np.unique(list(gt_box_del_candidates.values()))
+    for value in gt_box_del_candidates.values():
+        if isinstance(value, list):
+            cleaned_values.append(tuple(value))
+        else:
+            print(f"Unexpected value type: {value}, Type: {type(value)}")
+
+    value_uniq = list(set(cleaned_values))#np.unique 오리지널 코드 수정
+
     if len(value_uniq) == 1:
         if len(value_uniq[0]) == 0:
             return gt_boxes, gt_texts, pred_boxes, pred_texts
@@ -333,6 +348,7 @@ def process( gt_file, pred_file, dontcare_text):
     except Exception as e:
         print(filename, e)
         print(traceback.format_exc())
+        return 0,0,0,0,0
         
 
 
@@ -377,8 +393,11 @@ def make_pair(GTs, Ds):
     if len(GTs)==0 or len(Ds)==0:
         return [], []
 
-    def fname(x):
+    def fname(x):#edited
         _, fn = os.path.split(x)
+        print("="*50,fn)
+        if "_pred" in fn:
+            fn=fn[:-5]
         return fn
 
     newgts = []
@@ -386,8 +405,10 @@ def make_pair(GTs, Ds):
 
     gi = di = 0
     while True:
+        print("entering while True")
         gtn = fname(GTs[gi])
         dn = fname(Ds[di])
+        print(f"Comparing: {gtn} vs {dn}")  # 로그 추가
         if gtn == dn:
             newgts += [GTs[gi]]
             newds += [Ds[di]]
