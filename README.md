@@ -76,9 +76,9 @@ OCR_Project/
 ## 👥 Team Members
 |이름|역할|Github|
 |--|--|--|
-|**문상흠**|||
-|**박창현**|||
+|**문상흠**||https://github.com/pythontopumj|
+|**박창현**||https://github.com/Chang-Hyeon-Park|
 |**이동준**|||
-|**위서현**|||
+|**위서현**||https://github.com/soi222|
 |**조유경**||https://github.com/YugyeongJo|
-|**한동우**|||
+|**한동우**||https://github.com/DongwooHan-GitHub|
