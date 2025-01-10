@@ -78,7 +78,7 @@ OCR_Project/
 |--|--|--|
 |**문상흠**||https://github.com/pythontopumj|
 |**박창현**||https://github.com/Chang-Hyeon-Park|
-|**이동준**|||
+|**이동준**||https://github.com/dongjun1|
 |**위서현**||https://github.com/soi222|
 |**조유경**||https://github.com/YugyeongJo|
 |**한동우**||https://github.com/DongwooHan-GitHub|
